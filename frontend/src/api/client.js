@@ -1,7 +1,10 @@
 import axios from 'axios'
 import { supabase } from '../lib/supabase'
 
-const api = axios.create({ timeout: 60000 })
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL ?? '',
+  timeout: 60000,
+})
 
 // Attach the Supabase JWT to every request automatically
 api.interceptors.request.use(async config => {
