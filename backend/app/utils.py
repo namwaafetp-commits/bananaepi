@@ -66,13 +66,14 @@ def _storage_download(bucket: str, path: str) -> bytes:
 def _storage_upload(bucket: str, path: str, data: bytes, content_type: str = "application/octet-stream") -> None:
     sb = get_supabase()
     try:
-        sb.storage.from_(bucket).upload(
+        # Try update first — guarantees overwrite when file already exists
+        sb.storage.from_(bucket).update(
             path, data,
             file_options={"content-type": content_type, "upsert": "true"},
         )
     except Exception:
-        # Try update if upload fails (file already exists)
-        sb.storage.from_(bucket).update(
+        # File doesn't exist yet — use upload
+        sb.storage.from_(bucket).upload(
             path, data,
             file_options={"content-type": content_type, "upsert": "true"},
         )
