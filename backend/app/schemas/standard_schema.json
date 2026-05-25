@@ -1,0 +1,505 @@
+{
+  "categories": {
+    "identifier": {
+      "label": "ตัวระบุ",
+      "label_en": "Identifier",
+      "color": "slate",
+      "fields": {
+        "case_id": {
+          "required": true,
+          "type": "string",
+          "label_th": "รหัสผู้ป่วย",
+          "label_en": "Case ID",
+          "aliases": ["id", "case_no", "case_number", "caseid", "patient_id", "hn",
+                      "record_id", "hn_number", "no", "number", "seq", "row_id"]
+        }
+      }
+    },
+    "person": {
+      "label": "บุคคล",
+      "label_en": "Person",
+      "color": "blue",
+      "fields": {
+        "age": {
+          "required": true,
+          "type": "numeric",
+          "label_th": "อายุ (ปี)",
+          "label_en": "Age (years)",
+          "aliases": ["age_years", "อายุ", "yr", "years", "age_yr", "patient_age"]
+        },
+        "sex": {
+          "required": true,
+          "type": "string",
+          "label_th": "เพศ",
+          "label_en": "Sex",
+          "aliases": ["gender", "เพศ", "sex_at_birth", "biological_sex"]
+        },
+        "occupation": {
+          "type": "string",
+          "label_th": "อาชีพ",
+          "label_en": "Occupation",
+          "aliases": ["job", "work", "อาชีพ", "employment", "profession", "career"]
+        },
+        "nationality": {
+          "type": "string",
+          "label_th": "สัญชาติ",
+          "label_en": "Nationality",
+          "aliases": ["country", "สัญชาติ", "nation", "citizenship"]
+        },
+        "underlying_ht": {
+          "type": "boolean",
+          "label_th": "โรคความดันโลหิตสูง (HT)",
+          "label_en": "Hypertension (HT)",
+          "aliases": ["ht", "hypertension", "htn", "high_blood_pressure", "bp_high",
+                      "โรคความดัน", "ความดัน", "high_bp"]
+        },
+        "underlying_dm": {
+          "type": "boolean",
+          "label_th": "โรคเบาหวาน (DM)",
+          "label_en": "Diabetes Mellitus (DM)",
+          "aliases": ["dm", "diabetes", "diabetic", "sugar", "เบาหวาน", "type2_dm", "dm2"]
+        },
+        "underlying_copd": {
+          "type": "boolean",
+          "label_th": "โรคปอดเรื้อรัง (COPD)",
+          "label_en": "COPD / Asthma",
+          "aliases": ["copd", "chronic_lung", "lung_disease", "asthma", "โรคปอด", "respiratory"]
+        },
+        "underlying_cad": {
+          "type": "boolean",
+          "label_th": "โรคหัวใจ (CAD)",
+          "label_en": "Coronary Artery Disease (CAD)",
+          "aliases": ["cad", "heart_disease", "ihd", "cardiac", "โรคหัวใจ", "chd"]
+        },
+        "underlying_ckd": {
+          "type": "boolean",
+          "label_th": "โรคไตเรื้อรัง (CKD)",
+          "label_en": "Chronic Kidney Disease (CKD)",
+          "aliases": ["ckd", "kidney_disease", "renal", "chronic_kidney", "โรคไต", "renal_failure"]
+        },
+        "underlying_liver": {
+          "type": "boolean",
+          "label_th": "โรคตับ",
+          "label_en": "Liver Disease",
+          "aliases": ["liver", "liver_disease", "cirrhosis", "hepatitis", "โรคตับ", "ตับ", "hep"]
+        },
+        "underlying_immunocomp": {
+          "type": "boolean",
+          "label_th": "ภูมิคุ้มกันบกพร่อง",
+          "label_en": "Immunocompromised",
+          "aliases": ["immunocomp", "immune_deficiency", "hiv", "aids", "cancer",
+                      "chemotherapy", "immunosuppressed", "ภูมิคุ้มกัน"]
+        },
+        "underlying_pregnant": {
+          "type": "boolean",
+          "label_th": "ตั้งครรภ์",
+          "label_en": "Pregnant",
+          "aliases": ["pregnant", "pregnancy", "gravida", "ตั้งครรภ์", "preg"]
+        },
+        "underlying_disease": {
+          "type": "boolean",
+          "label_th": "มีโรคประจำตัว",
+          "label_en": "Has Underlying Disease",
+          "aliases": ["underlying_binary", "underlying", "u/d", "โรคประจำตัว", "มีโรคประจำตัว", "has_underlying"]
+        },
+        "underlying_list": {
+          "type": "string",
+          "label_th": "รายชื่อโรคประจำตัว",
+          "label_en": "Underlying Disease List",
+          "aliases": ["underlying_list", "รายชื่อโรคประจำตัว", "โรคประจำตัว_string", "underlying_text", "โรคประจำตัว_อื่นๆ"]
+        }
+      }
+    },
+    "place": {
+      "label": "สถานที่",
+      "label_en": "Place",
+      "color": "green",
+      "fields": {
+        "province": {
+          "type": "string",
+          "label_th": "จังหวัด",
+          "label_en": "Province",
+          "aliases": ["province", "จังหวัด", "changwat", "region", "state"]
+        },
+        "district": {
+          "type": "string",
+          "label_th": "อำเภอ",
+          "label_en": "District",
+          "aliases": ["district", "อำเภอ", "amphoe", "city", "area", "county"]
+        },
+        "subdistrict": {
+          "type": "string",
+          "label_th": "ตำบล",
+          "label_en": "Subdistrict",
+          "aliases": ["subdistrict", "ตำบล", "tambon", "sub_district", "tambon_name"]
+        },
+        "village": {
+          "type": "string",
+          "label_th": "หมู่บ้าน",
+          "label_en": "Village / Locality",
+          "aliases": ["village", "หมู่บ้าน", "moo", "mu", "locality", "community"]
+        },
+        "address": {
+          "type": "string",
+          "label_th": "ที่อยู่",
+          "label_en": "Address",
+          "aliases": ["address", "ที่อยู่", "location", "place_of_residence", "home_address"]
+        }
+      }
+    },
+    "time": {
+      "label": "เวลา",
+      "label_en": "Time",
+      "color": "orange",
+      "fields": {
+        "date_onset": {
+          "required": true,
+          "type": "date",
+          "label_th": "วันที่เริ่มป่วย",
+          "label_en": "Date of Onset",
+          "aliases": ["onset_date", "date_ill", "illness_date", "symptom_date", "onset",
+                      "วันที่เริ่มป่วย", "วันป่วย", "date_sick", "symptom_onset", "onset_dt",
+                      "date_of_onset", "illness_onset", "sick_date", "dateonset", "วันเริ่มป่วย"]
+        },
+        "time_onset": {
+          "type": "time",
+          "label_th": "เวลาเริ่มป่วย",
+          "label_en": "Time of Onset",
+          "aliases": ["onset_time", "time_onset", "เวลาเริ่มป่วย", "time_of_onset", "symptom_time"]
+        },
+        "date_exposure": {
+          "type": "date",
+          "label_th": "วันที่สัมผัส",
+          "label_en": "Date of Exposure",
+          "aliases": ["exposure_date", "date_exposed", "contact_date", "วันสัมผัส",
+                      "date_of_exposure", "exp_date"]
+        },
+        "date_report": {
+          "type": "date",
+          "label_th": "วันที่รายงาน",
+          "label_en": "Date of Report",
+          "aliases": ["report_date", "reporting_date", "notification_date", "วันรายงาน",
+                      "date_notified", "notify_date"]
+        },
+        "date_admitted": {
+          "type": "date",
+          "label_th": "วันที่รับไว้รักษา",
+          "label_en": "Date of Admission",
+          "aliases": ["admit_date", "admission_date", "date_admit", "date_hospitalized",
+                      "วันรับไว้", "date_of_admission", "admit_dt"]
+        },
+        "date_discharge": {
+          "type": "date",
+          "label_th": "วันที่จำหน่าย",
+          "label_en": "Date of Discharge",
+          "aliases": ["discharge_date", "date_discharged", "วันจำหน่าย", "discharge_dt",
+                      "date_of_discharge"]
+        },
+        "date_death": {
+          "type": "date",
+          "label_th": "วันที่เสียชีวิต",
+          "label_en": "Date of Death",
+          "aliases": ["death_date", "date_died", "date_deceased", "วันเสียชีวิต",
+                      "date_of_death", "death_dt"]
+        }
+      }
+    },
+    "case": {
+      "label": "สถานะผู้ป่วย",
+      "label_en": "Case Status",
+      "color": "red",
+      "fields": {
+        "case_status": {
+          "type": "integer",
+          "label_th": "สถานะผู้ป่วย (1=ป่วย, 0=ไม่ป่วย)",
+          "label_en": "Case Status (1=case, 0=control)",
+          "aliases": ["case", "ill", "sick", "case_control", "is_case", "ป่วย",
+                      "status", "case_flag", "ill_flag"]
+        },
+        "diagnosis": {
+          "type": "string",
+          "label_th": "การวินิจฉัย",
+          "label_en": "Diagnosis / Disease",
+          "aliases": ["diagnosis", "disease", "icd", "icd10", "วินิจฉัย", "dx",
+                      "disease_name", "condition", "diagnosis_code"]
+        }
+      }
+    },
+    "symptom": {
+      "label": "อาการ",
+      "label_en": "Symptoms",
+      "color": "purple",
+      "prefix": "symptom_",
+      "fields": {
+        "symptom_fever": {
+          "type": "boolean",
+          "label_th": "ไข้",
+          "label_en": "Fever",
+          "aliases": ["fever", "febrile", "temp_high", "ไข้", "pyrexia", "high_fever"]
+        },
+        "symptom_cough": {
+          "type": "boolean",
+          "label_th": "ไอ",
+          "label_en": "Cough",
+          "aliases": ["cough", "coughing", "ไอ", "dry_cough", "wet_cough"]
+        },
+        "symptom_diarrhea": {
+          "type": "boolean",
+          "label_th": "ท้องเสีย",
+          "label_en": "Diarrhea",
+          "aliases": ["diarrhea", "diarrhoea", "loose_stool", "ท้องเสีย", "lbm", "watery_stool"]
+        },
+        "symptom_vomiting": {
+          "type": "boolean",
+          "label_th": "อาเจียน",
+          "label_en": "Vomiting",
+          "aliases": ["vomiting", "vomit", "emesis", "อาเจียน", "throwing_up"]
+        },
+        "symptom_nausea": {
+          "type": "boolean",
+          "label_th": "คลื่นไส้",
+          "label_en": "Nausea",
+          "aliases": ["nausea", "nauseous", "คลื่นไส้", "queasy"]
+        },
+        "symptom_abdominal_pain": {
+          "type": "boolean",
+          "label_th": "ปวดท้อง",
+          "label_en": "Abdominal Pain",
+          "aliases": ["abdominal_pain", "ab_pain", "stomach_pain", "stomachache",
+                      "ปวดท้อง", "abdo_pain", "belly_pain", "cramp"]
+        },
+        "symptom_headache": {
+          "type": "boolean",
+          "label_th": "ปวดหัว",
+          "label_en": "Headache",
+          "aliases": ["headache", "head_pain", "ปวดหัว", "cephalgia", "migraine"]
+        },
+        "symptom_myalgia": {
+          "type": "boolean",
+          "label_th": "ปวดเมื่อย",
+          "label_en": "Myalgia / Body Ache",
+          "aliases": ["myalgia", "muscle_pain", "body_ache", "ปวดเมื่อย", "aches",
+                      "muscle_ache", "body_pain", "arthralgia"]
+        },
+        "symptom_rash": {
+          "type": "boolean",
+          "label_th": "ผื่น",
+          "label_en": "Rash",
+          "aliases": ["rash", "skin_rash", "ผื่น", "urticaria", "hives", "skin_lesion"]
+        },
+        "symptom_dyspnea": {
+          "type": "boolean",
+          "label_th": "หายใจลำบาก",
+          "label_en": "Dyspnea / SOB",
+          "aliases": ["dyspnea", "dyspnoea", "shortness_of_breath", "sob",
+                      "หายใจลำบาก", "breathlessness", "difficulty_breathing"]
+        },
+        "symptom_chest_pain": {
+          "type": "boolean",
+          "label_th": "เจ็บหน้าอก",
+          "label_en": "Chest Pain",
+          "aliases": ["chest_pain", "chest_tightness", "เจ็บหน้าอก", "chest_discomfort"]
+        },
+        "symptom_jaundice": {
+          "type": "boolean",
+          "label_th": "ดีซ่าน",
+          "label_en": "Jaundice",
+          "aliases": ["jaundice", "yellow_skin", "icterus", "ดีซ่าน", "yellow_eyes"]
+        },
+        "symptom_fatigue": {
+          "type": "boolean",
+          "label_th": "อ่อนเพลีย",
+          "label_en": "Fatigue",
+          "aliases": ["fatigue", "tiredness", "weakness", "อ่อนเพลีย", "lethargy", "exhaustion"]
+        }
+      }
+    },
+    "exposure": {
+      "label": "การสัมผัส",
+      "label_en": "Exposure",
+      "color": "yellow",
+      "prefix": "exposure_",
+      "fields": {
+        "exposure_water": {
+          "type": "boolean",
+          "label_th": "น้ำดื่ม / แหล่งน้ำ",
+          "label_en": "Water Source",
+          "aliases": ["water", "drinking_water", "tap_water", "น้ำ", "น้ำดื่ม", "water_source"]
+        },
+        "exposure_food_rice": {
+          "type": "boolean",
+          "label_th": "ข้าว",
+          "label_en": "Rice",
+          "aliases": ["rice", "ข้าว", "cooked_rice", "rice_dish"]
+        },
+        "exposure_food_chicken": {
+          "type": "boolean",
+          "label_th": "ไก่",
+          "label_en": "Chicken",
+          "aliases": ["chicken", "ไก่", "poultry", "chicken_dish"]
+        },
+        "exposure_food_pork": {
+          "type": "boolean",
+          "label_th": "หมู",
+          "label_en": "Pork",
+          "aliases": ["pork", "หมู", "pig", "pork_dish"]
+        },
+        "exposure_food_beef": {
+          "type": "boolean",
+          "label_th": "เนื้อวัว",
+          "label_en": "Beef",
+          "aliases": ["beef", "เนื้อ", "cow", "beef_dish", "meat"]
+        },
+        "exposure_food_seafood": {
+          "type": "boolean",
+          "label_th": "อาหารทะเล",
+          "label_en": "Seafood",
+          "aliases": ["seafood", "fish", "shrimp", "อาหารทะเล", "ปลา", "squid", "shellfish"]
+        },
+        "exposure_food_egg": {
+          "type": "boolean",
+          "label_th": "ไข่",
+          "label_en": "Egg",
+          "aliases": ["egg", "eggs", "ไข่", "scrambled_egg"]
+        },
+        "exposure_food_salad": {
+          "type": "boolean",
+          "label_th": "สลัด / ผักสด",
+          "label_en": "Salad / Raw Vegetables",
+          "aliases": ["salad", "raw_vegetables", "vegetables", "สลัด", "ผัก", "veggie", "lettuce"]
+        },
+        "exposure_food_dessert": {
+          "type": "boolean",
+          "label_th": "ขนม / ของหวาน",
+          "label_en": "Dessert / Sweet",
+          "aliases": ["dessert", "sweet", "cake", "pudding", "ขนม", "ของหวาน"]
+        },
+        "exposure_animal_contact": {
+          "type": "boolean",
+          "label_th": "สัมผัสสัตว์",
+          "label_en": "Animal Contact",
+          "aliases": ["animal", "animal_contact", "livestock", "สัตว์", "สัมผัสสัตว์",
+                      "bird_contact", "poultry_contact"]
+        },
+        "exposure_crowded_place": {
+          "type": "boolean",
+          "label_th": "สถานที่แออัด",
+          "label_en": "Crowded Place",
+          "aliases": ["crowded", "crowd", "public_place", "สถานที่แออัด", "gathering"]
+        },
+        "exposure_shared_toilet": {
+          "type": "boolean",
+          "label_th": "ส้วมร่วม",
+          "label_en": "Shared Toilet",
+          "aliases": ["shared_toilet", "toilet", "bathroom", "ส้วม", "restroom"]
+        },
+        "exposure_travel": {
+          "type": "boolean",
+          "label_th": "เดินทาง",
+          "label_en": "Travel History",
+          "aliases": ["travel", "trip", "journey", "เดินทาง", "travel_history", "visited"]
+        }
+      }
+    },
+    "outcome": {
+      "label": "ผลลัพธ์ / โรงพยาบาล",
+      "label_en": "Outcome & Hospital",
+      "color": "red",
+      "fields": {
+        "outcome": {
+          "type": "string",
+          "label_th": "ผลลัพธ์ (Alive/Dead/Unknown)",
+          "label_en": "Outcome",
+          "aliases": ["outcome", "result", "final_outcome", "ผลลัพธ์", "death_status",
+                      "patient_outcome", "clinical_outcome"]
+        },
+        "hospitalized": {
+          "type": "boolean",
+          "label_th": "เข้ารับการรักษา (โรงพยาบาล)",
+          "label_en": "Hospitalized",
+          "aliases": ["hospitalized", "admit", "admitted", "inpatient",
+                      "เข้าโรงพยาบาล", "นอนโรงพยาบาล", "hospital_admit"]
+        },
+        "icu": {
+          "type": "boolean",
+          "label_th": "เข้า ICU",
+          "label_en": "ICU Admission",
+          "aliases": ["icu", "intensive_care", "critical_care", "icu_admit",
+                      "เข้าไอซียู", "icu_admission"]
+        },
+        "self_remit": {
+          "type": "boolean",
+          "label_th": "หายเองโดยไม่รักษา",
+          "label_en": "Self Remitting",
+          "aliases": ["self_remit", "self_recovered", "recovered_home",
+                      "หายเอง", "spontaneous_recovery"]
+        }
+      }
+    },
+    "lab": {
+      "label": "ห้องปฏิบัติการ",
+      "label_en": "Laboratory",
+      "color": "teal",
+      "fields": {
+        "lab_confirmed": {
+          "type": "boolean",
+          "label_th": "ยืนยันทางห้องปฏิบัติการ",
+          "label_en": "Laboratory Confirmed",
+          "aliases": ["lab_confirmed", "lab_confirm", "confirmed", "lab_positive",
+                      "pcr_positive", "ยืนยัน", "culture_positive", "test_positive"]
+        },
+        "lab_result": {
+          "type": "string",
+          "label_th": "ผลการตรวจ",
+          "label_en": "Lab Result",
+          "aliases": ["lab_result", "test_result", "lab_finding", "ผลตรวจ", "lab_report"]
+        },
+        "lab_specimen": {
+          "type": "string",
+          "label_th": "ชนิดสิ่งส่งตรวจ",
+          "label_en": "Specimen Type",
+          "aliases": ["specimen", "specimen_type", "sample", "สิ่งส่งตรวจ", "sample_type"]
+        }
+      }
+    },
+    "treatment": {
+      "label": "การรักษา",
+      "label_en": "Treatment",
+      "color": "indigo",
+      "fields": {
+        "treatment_self": {
+          "type": "boolean",
+          "label_th": "รักษาตัวเอง",
+          "label_en": "Self Treatment",
+          "aliases": ["self_treat", "home_treatment", "self_medication",
+                      "รักษาเอง", "home_remedy", "self_care"]
+        },
+        "treatment_drugstore": {
+          "type": "boolean",
+          "label_th": "ร้านขายยา",
+          "label_en": "Drugstore / Pharmacy",
+          "aliases": ["drugstore", "pharmacy", "drug_store", "ร้านขายยา", "ร้านยา",
+                      "otc", "chemist"]
+        },
+        "treatment_opd": {
+          "type": "boolean",
+          "label_th": "ผู้ป่วยนอก (OPD)",
+          "label_en": "Outpatient (OPD)",
+          "aliases": ["opd", "outpatient", "clinic", "ผู้ป่วยนอก", "out_patient"]
+        },
+        "treatment_ipd": {
+          "type": "boolean",
+          "label_th": "ผู้ป่วยใน (IPD)",
+          "label_en": "Inpatient (IPD)",
+          "aliases": ["ipd", "inpatient", "ward", "ผู้ป่วยใน", "in_patient", "admitted"]
+        }
+      }
+    }
+  },
+  "_notes": [
+    "Any column prefixed 'exposure_' is auto-treated as a risk factor (binarized to 0/1)",
+    "Any column prefixed 'symptom_' is auto-summarized in descriptive analysis",
+    "Use the mapping API to rename user columns to these standard names before analysis",
+    "case_status: 1=case (ill), 0=non-case. Required for RR calculation."
+  ]
+}

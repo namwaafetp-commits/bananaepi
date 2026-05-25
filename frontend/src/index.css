@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { @apply bg-slate-100; }
+  ::-webkit-scrollbar-thumb { @apply bg-slate-300 rounded-full; }
+}
+
+@layer components {
+  /* Dark scrollbar for navy panes (dashboard, case-definition panels) */
+  .custom-scrollbar::-webkit-scrollbar-track { @apply bg-navy-900; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { @apply bg-navy-600 rounded-full; }
+
+  /* Light card — used by legacy ProjectPage tab components */
+  .glass {
+    @apply bg-white border border-slate-200 shadow-sm backdrop-blur-sm;
+  }
+  .glass-elevated {
+    @apply bg-white border border-slate-200 shadow-md;
+  }
+  .card {
+    @apply bg-white border border-slate-200 rounded-2xl shadow-sm;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply px-4 py-2 bg-teal-600 hover:bg-teal-700 active:bg-teal-800
+           text-white font-medium rounded-xl transition-colors duration-150
+           disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+  .btn-secondary {
+    @apply px-4 py-2 bg-white hover:bg-slate-50 active:bg-slate-100
+           text-slate-700 font-medium rounded-xl border border-slate-200
+           transition-colors duration-150
+           disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+  .btn-ghost {
+    @apply px-4 py-2 bg-slate-100 hover:bg-slate-200 active:bg-slate-100
+           text-slate-500 hover:text-slate-700 font-medium rounded-xl border border-slate-200
+           transition-colors duration-150;
+  }
+
+  /* Tags — light variants */
+  .tag-green  { @apply text-xs px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200; }
+  .tag-red    { @apply text-xs px-2 py-0.5 rounded-full bg-red-50     text-red-700     border border-red-200; }
+  .tag-yellow { @apply text-xs px-2 py-0.5 rounded-full bg-yellow-50  text-yellow-700  border border-yellow-200; }
+  .tag-gray   { @apply text-xs px-2 py-0.5 rounded-full bg-slate-100  text-slate-600   border border-slate-200; }
+}

@@ -1,0 +1,2 @@
+case_id,age,sex,date_onset,date_report,outcome,district,lab_confirmed,hospitalized,case_status,exposure_pasta_salad,exposure_chicken,exposure_coleslaw,exposure_chocolate_cake,exposure_fruit_punch,symptom_nausea,symptom_vomiting,symptom_diarrhea,symptom_fever,symptom_cramps
+C001,25,Male,15/01/2024,16/01/2024,Alive,District Name,FALSE,FALSE,1,1,0,1,0,1,1,0,1,0,1

@@ -1,0 +1,70 @@
+# ── Python ──────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+dist/
+build/
+venv/
+.venv/
+env/
+.env
+
+# ── Environment / secrets ────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+crash_logs.txt
+
+# ── Node / frontend ──────────────────────────────────────────────────────────
+node_modules/
+frontend/node_modules/
+frontend/dist/
+
+# ── OS / editor ──────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.suo
+*.user
+
+# ── Test / debug artifacts ───────────────────────────────────────────────────
+test_*.py
+test_*.js
+debug_*.py
+smoke_test.py
+explore_columns.py
+generate_example_data.py
+print_metadata.py
+apply_debug.log
+backend.log
+backend_test.log
+backend_test_err.log
+backend_test.log
+frontend.log
+frontend_test.log
+frontend_test_err.log
+uvicorn.log
+uvicorn_err.log
+
+# ── Runtime storage (user data, may contain PII) ─────────────────────────────
+backend/data/
+backend/uploads/
+backend/projects/
+backend/app/storage/
+
+# ── Claude Code local settings ────────────────────────────────────────────────
+.claude/settings.local.json
+backend/.claude/settings.local.json
+**/.claude/settings.local.json
+
+# ── Misc project files ───────────────────────────────────────────────────────
+outbreak_dashboard_mvp_action_plan.md
