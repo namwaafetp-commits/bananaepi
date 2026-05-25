@@ -125,6 +125,30 @@ function fmtNum(n, decimals = 1) {
   return typeof n === 'number' ? n.toFixed(decimals) : n;
 }
 
+// ── Side-by-side outcome bars ────────────────────────────────────────────────
+function OutcomeBar({ label, count, total, pct, color = 'bg-teal-500', textColor = 'text-teal-700' }) {
+  if (count == null) return null;
+  const p = pct != null ? pct : (total > 0 ? Math.round((count / total) * 100) : 0);
+  return (
+    <div className="bg-white rounded-xl border border-slate-200 p-4 flex flex-col gap-2">
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">{label}</span>
+        <span className={`text-xs font-bold px-2 py-0.5 rounded-full bg-slate-50 border border-slate-200 ${textColor}`}>
+          {p}%
+        </span>
+      </div>
+      <p className={`text-2xl font-bold ${textColor}`}>{count.toLocaleString()}</p>
+      <div className="h-2 rounded-full bg-slate-100">
+        <div
+          className={`h-2 rounded-full ${color} transition-all duration-500`}
+          style={{ width: `${Math.min(p, 100)}%` }}
+        />
+      </div>
+      <p className="text-[11px] text-slate-400">{count.toLocaleString()} / {total?.toLocaleString() ?? '?'} ราย</p>
+    </div>
+  );
+}
+
 export default function OverviewTab({ data, timeData, personData, caseDefinition, hasCaseDefinition = true, lang = 'th' }) {
   if (!data) return <div className="text-slate-500 p-4">{t('loading_overview', lang)}</div>;
 
@@ -192,9 +216,23 @@ export default function OverviewTab({ data, timeData, personData, caseDefinition
         </div>
       )}
 
+      {/* ── Cases vs Total — side-by-side bars ───────────────────────────────── */}
       <div className="grid grid-cols-2 gap-4">
-        <KpiCard title={t('ov_total', lang)} value={data.total_records} />
-        <KpiCard title={t('ov_cases', lang)} value={data.case_count} highlight />
+        <OutcomeBar
+          label={t('ov_total', lang)}
+          count={data.total_records}
+          total={data.total_records}
+          pct={100}
+          color="bg-slate-400"
+          textColor="text-slate-700"
+        />
+        <OutcomeBar
+          label={t('ov_cases', lang)}
+          count={data.case_count}
+          total={data.total_records}
+          color="bg-teal-500"
+          textColor="text-teal-700"
+        />
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -237,32 +275,37 @@ export default function OverviewTab({ data, timeData, personData, caseDefinition
         />
       </div>
 
+      {/* ── Clinical outcomes — side-by-side bars ────────────────────────────── */}
       {hasClinical && (
-        <div className="flex flex-wrap gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {hasHosp && (
-            <div className="flex-1 min-w-[140px]">
-              <KpiCard title={t('ov_hospitalised', lang)} value={data.hospitalized_count} />
-            </div>
-          )}
-          {hasAdmRate && (
-            <div className="flex-1 min-w-[140px]">
-              <KpiCard title={t('ov_admission_rate', lang)} value={`${data.hospitalization_rate}%`} highlight />
-            </div>
+            <OutcomeBar
+              label={t('ov_hospitalised', lang)}
+              count={data.hospitalized_count}
+              total={data.case_count ?? data.total_records}
+              pct={data.hospitalization_rate}
+              color="bg-blue-400"
+              textColor="text-blue-700"
+            />
           )}
           {hasDeath && (
-            <div className="flex-1 min-w-[140px]">
-              <KpiCard title={t('ov_deaths', lang)} value={data.death_count} />
-            </div>
+            <OutcomeBar
+              label={t('ov_deaths', lang)}
+              count={data.death_count}
+              total={data.case_count ?? data.total_records}
+              color="bg-rose-400"
+              textColor="text-rose-700"
+            />
           )}
           {hasLab && (
-            <div className="flex-1 min-w-[140px]">
-              <KpiCard title={t('ov_lab_confirmed', lang)} value={data.lab_positive_count} />
-            </div>
-          )}
-          {hasLabPct && (
-            <div className="flex-1 min-w-[140px]">
-              <KpiCard title={t('ov_lab_rate', lang)} value={`${data.lab_positive_pct}%`} highlight />
-            </div>
+            <OutcomeBar
+              label={t('ov_lab_confirmed', lang)}
+              count={data.lab_positive_count}
+              total={data.case_count ?? data.total_records}
+              pct={data.lab_positive_pct}
+              color="bg-violet-400"
+              textColor="text-violet-700"
+            />
           )}
         </div>
       )}
