@@ -1,4 +1,6 @@
 ﻿from datetime import datetime, timezone
+import io
+import time
 import pandas as pd
 from fastapi import APIRouter, Body, Depends, HTTPException
 
@@ -153,7 +155,22 @@ def apply_case_definition_route(project_id: str, request: ApplyCaseDefinitionReq
     
     # 2. Save CSV to Supabase Storage
     save_cleaned_df(project_id, df)
-    
+
+    # 2b. Verify the write propagated before returning — Supabase Storage can take
+    #     several seconds to make the new object visible on subsequent reads.
+    #     Poll up to 8 times (4 s) until the saved column is readable.
+    for attempt in range(8):
+        try:
+            verify_data = load_cleaned_df(project_id)
+            if output_col in verify_data.columns:
+                print(f"[apply] write verified on attempt {attempt + 1}", flush=True)
+                break
+        except Exception:
+            pass
+        time.sleep(0.5)
+    else:
+        print(f"[apply] WARNING: could not verify write after 4 s — proceeding anyway", flush=True)
+
     # 3. Generate summary
     preview_data = generate_preview(df, rule_json, output_col=output_col)
     text = generate_human_readable_text(rule_json)
