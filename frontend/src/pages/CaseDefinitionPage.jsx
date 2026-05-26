@@ -29,6 +29,7 @@ export default function CaseDefinitionPage() {
 
   const [applying, setApplying] = useState(false);
   const [applyResult, setApplyResult] = useState(null);
+  const [navigating, setNavigating] = useState(false);
 
   useEffect(() => {
     Promise.all([
@@ -65,6 +66,15 @@ export default function CaseDefinitionPage() {
     }, 700);
     return () => { clearTimeout(timer); setPreviewing(false); };
   }, [rules, name, outputCol, projectId]);
+
+  // After a successful apply, wait briefly for Supabase Storage to propagate
+  // the new file before navigating — avoids the dashboard reading stale content.
+  useEffect(() => {
+    if (!applyResult) return;
+    setNavigating(true);
+    const timer = setTimeout(() => navigate(`/dashboard/${projectId}`), 1500);
+    return () => clearTimeout(timer);
+  }, [applyResult, projectId, navigate]);
 
   const handlePreview = async () => {
     setPreviewing(true);
@@ -146,8 +156,20 @@ export default function CaseDefinitionPage() {
             </div>
           </div>
 
-          <button onClick={() => navigate(`/dashboard/${projectId}`)} className="btn-primary w-full">
-            {T.proceedToAnalysis}
+          <button
+            onClick={() => navigate(`/dashboard/${projectId}`)}
+            disabled={navigating}
+            className="btn-primary w-full disabled:opacity-80 disabled:cursor-default"
+          >
+            {navigating ? (
+              <span className="flex items-center justify-center gap-2">
+                <svg className="animate-spin w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+                </svg>
+                {lang === 'th' ? 'กำลังเตรียม Dashboard…' : 'Preparing Dashboard…'}
+              </span>
+            ) : T.proceedToAnalysis}
           </button>
         </div>
       </div>
