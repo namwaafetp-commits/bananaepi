@@ -97,7 +97,7 @@ def load_raw_df(project_id: str) -> pd.DataFrame:
 def load_cleaned_df(project_id: str) -> pd.DataFrame:
     """Download cleaned CSV from Storage and return as DataFrame."""
     data = _storage_download(BUCKET_CLEANED, f"{project_id}/cleaned.csv")
-    df = pd.read_csv(io.BytesIO(data), low_memory=False)
+    df = pd.read_csv(io.BytesIO(data), low_memory=False, encoding="utf-8-sig")
     for col in DATE_COLS:
         if col in df.columns:
             df[col] = pd.to_datetime(df[col], errors="coerce")

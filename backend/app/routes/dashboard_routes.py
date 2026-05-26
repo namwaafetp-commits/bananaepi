@@ -68,21 +68,6 @@ def _build_case_definition(meta: dict, has_case_def: bool) -> dict | None:
     return {"name": name, "human_readable": hr}
 
 
-@router.get("/{project_id}/debug-casedef")
-def debug_casedef(project_id: str, user: dict = Depends(get_current_user)):
-    """Temporary debug endpoint — remove after investigation."""
-    df   = load_cleaned_df(project_id)
-    meta = load_metadata(project_id, user_id=user["user_id"])
-    active = meta.get("active_case_definition") or {}
-    return {
-        "df_columns":       list(df.columns),
-        "meta_status":      meta.get("status"),
-        "active_case_def":  active,
-        "stored_output_col": active.get("output_column"),
-        "col_in_df":        active.get("output_column") in df.columns if active.get("output_column") else False,
-        "fallback_check":   {c: c in df.columns for c in _FALLBACK_OUTPUT_COLS},
-    }
-
 
 @router.get("/{project_id}/dashboard", response_model=Dict[str, Any])
 def get_dashboard(project_id: str, user: dict = Depends(get_current_user)):

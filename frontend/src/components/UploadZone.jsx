@@ -19,12 +19,36 @@ export default function UploadZone({ onUploadComplete, onRateLimit }) {
       return
     }
     setIsUploading(true)
-    setProgress('กำลังอัปโหลด…')
+
+    // Wake the server in case it's sleeping (Render free-tier cold start)
+    setProgress('กำลังเชื่อมต่อเซิร์ฟเวอร์…')
+    try {
+      await api.get('/health', { timeout: 45000 })
+    } catch {
+      // ignore — if health fails, we still try the upload below
+    }
+
     const formData = new FormData()
     formData.append('file', file)
+
+    const doUpload = () => api.post('/upload/', formData, { timeout: 90000 })
+
     try {
-      setProgress('กำลังวิเคราะห์คอลัมน์…')
-      const { data } = await api.post('/upload/', formData)
+      setProgress('กำลังอัปโหลด…')
+      let response
+      try {
+        response = await doUpload()
+      } catch (firstErr) {
+        // Retry once after 3 s on network errors (no response = cold-start drop)
+        if (!firstErr.response) {
+          setProgress('กำลังลองใหม่อีกครั้ง…')
+          await new Promise(r => setTimeout(r, 3000))
+          response = await doUpload()
+        } else {
+          throw firstErr
+        }
+      }
+      const { data } = response
       setProgress('เตรียมหน้าจับคู่คอลัมน์…')
       await new Promise(r => setTimeout(r, 200))
       onUploadComplete?.(data)
