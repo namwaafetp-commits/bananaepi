@@ -64,18 +64,29 @@ def _storage_download(bucket: str, path: str) -> bytes:
 
 
 def _storage_upload(bucket: str, path: str, data: bytes, content_type: str = "application/octet-stream") -> None:
-    sb = get_supabase()
-    try:
-        # Try update first — guarantees overwrite when file already exists
-        sb.storage.from_(bucket).update(
-            path, data,
-            file_options={"content-type": content_type, "upsert": "true"},
-        )
-    except Exception:
-        # File doesn't exist yet — use upload
-        sb.storage.from_(bucket).upload(
-            path, data,
-            file_options={"content-type": content_type, "upsert": "true"},
+    """Upload (create-or-replace) a file in Supabase Storage.
+
+    Uses a direct HTTP POST with x-upsert=true instead of the SDK's
+    upload/update helpers, which have been observed to silently fail to
+    replace existing file content despite returning no error.
+    """
+    import httpx
+    from app.config import SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY
+
+    url = f"{SUPABASE_URL}/storage/v1/object/{bucket}/{path}"
+    headers = {
+        "Authorization": f"Bearer {SUPABASE_SERVICE_ROLE_KEY}",
+        "Content-Type": content_type,
+        "x-upsert": "true",
+        "cache-control": "no-cache",
+    }
+    print(f"[storage] uploading {bucket}/{path} ({len(data)} bytes)", flush=True)
+    resp = httpx.post(url, content=data, headers=headers, timeout=30.0)
+    print(f"[storage] → {resp.status_code}", flush=True)
+    if resp.status_code not in (200, 201):
+        raise HTTPException(
+            status_code=500,
+            detail=f"Storage upload failed [{resp.status_code}]: {resp.text[:300]}",
         )
 
 
@@ -97,7 +108,9 @@ def load_raw_df(project_id: str) -> pd.DataFrame:
 def load_cleaned_df(project_id: str) -> pd.DataFrame:
     """Download cleaned CSV from Storage and return as DataFrame."""
     data = _storage_download(BUCKET_CLEANED, f"{project_id}/cleaned.csv")
+    print(f"[load_cleaned_df] {project_id}: downloaded {len(data)} bytes", flush=True)
     df = pd.read_csv(io.BytesIO(data), low_memory=False, encoding="utf-8-sig")
+    print(f"[load_cleaned_df] {project_id}: cols={list(df.columns)[:8]}...", flush=True)
     for col in DATE_COLS:
         if col in df.columns:
             df[col] = pd.to_datetime(df[col], errors="coerce")
