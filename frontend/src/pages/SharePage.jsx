@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useLang } from '../context/LangContext';
 import { t } from '../i18n';
+import api from '../api/client';
 
 function fmtExpiry(isoString) {
   const exp = new Date(isoString);
@@ -30,16 +31,9 @@ export default function SharePage() {
 
   // Load share info (project name, expiry) — no password needed
   useEffect(() => {
-    fetch(`/api/share/${token}/info`)
-      .then(async r => {
-        if (!r.ok) {
-          const d = await r.json().catch(() => ({}));
-          throw new Error(d.detail || 'Share link not found');
-        }
-        return r.json();
-      })
-      .then(setInfo)
-      .catch(e => setInfoError(e.message));
+    api.get(`/api/share/${token}/info`)
+      .then(r => setInfo(r.data))
+      .catch(e => setInfoError(e.response?.data?.detail || e.message || 'Share link not found'));
   }, [token]);
 
   const handleUnlock = async () => {
@@ -47,18 +41,10 @@ export default function SharePage() {
     setUnlocking(true);
     setAuthError(null);
     try {
-      const res = await fetch(`/api/share/${token}/access`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
-      });
-      if (!res.ok) {
-        const d = await res.json().catch(() => ({}));
-        throw new Error(d.detail || 'Access denied');
-      }
-      setData(await res.json());
+      const res = await api.post(`/api/share/${token}/access`, { password });
+      setData(res.data);
     } catch (e) {
-      setAuthError(e.message);
+      setAuthError(e.response?.data?.detail || e.message || 'Access denied');
     } finally {
       setUnlocking(false);
     }
