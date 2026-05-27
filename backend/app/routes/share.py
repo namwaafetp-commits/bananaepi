@@ -19,6 +19,7 @@ from app.services.dashboard_person    import generate_person
 from app.services.dashboard_exposure  import generate_exposure
 from app.services.dashboard_analytic  import generate_analytic
 from app.services.dashboard_data_quality import generate_data_quality
+from app.routes.dashboard_routes import _build_case_definition
 
 router = APIRouter(prefix="/api/share", tags=["Share"])
 
@@ -73,15 +74,18 @@ def create_share(req: CreateShareRequest, user: dict = Depends(get_current_user)
     output_col   = _resolve_output_col(df, meta)
     project_name = meta.get("original_filename", req.project_id)
 
+    has_case_def = output_col != "_all_cases"
     snapshot = jsonable_encoder({
-        "project_id":   req.project_id,
-        "overview":     generate_overview(df, output_col),
-        "time":         generate_time(df, output_col),
-        "place":        generate_place(df, output_col),
-        "person":       generate_person(df, output_col),
-        "exposure":     generate_exposure(df, output_col),
-        "analytic":     generate_analytic(df, output_col),
-        "data_quality": generate_data_quality(df, output_col),
+        "project_id":        req.project_id,
+        "has_case_definition": has_case_def,
+        "case_definition":   _build_case_definition(meta, has_case_def),
+        "overview":          generate_overview(df, output_col),
+        "time":              generate_time(df, output_col),
+        "place":             generate_place(df, output_col),
+        "person":            generate_person(df, output_col),
+        "exposure":          generate_exposure(df, output_col),
+        "analytic":          generate_analytic(df, output_col),
+        "data_quality":      generate_data_quality(df, output_col),
     })
 
     token         = uuid.uuid4().hex[:24]
